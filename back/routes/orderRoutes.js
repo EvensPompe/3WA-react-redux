@@ -11,14 +11,12 @@ module.exports = (app, db)=>{
     const orderModel = require('../models/OrderModel')(db);
     const productModel = require('../models/ProductModel')(db);
 
-
-    
-    app.post('/api/v1/order/save', withAuth, async (req, res, next)=>{
+    app.post('/api/v1/order/save', withAuth, async (req, res)=>{
 	    let response = await orderModel.saveOneOrder(req);
 	    if(response.status === 500) {
 	        res.json({status: 500, msg: "Commande non enregistrée"})
 	    }
-	    let orderId = response.result.insertId
+	    let orderId = response.result.user_id;
 	    
 	    let basket = req.body.basket;
 	    let totalAmount = 0;

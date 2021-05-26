@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const secret = "ploump";
+const { token:{ secret } } = require("./config");
 
 
 const withAuth = (req, res, next)=>{

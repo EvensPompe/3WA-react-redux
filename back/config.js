@@ -1,12 +1,12 @@
 module.exports = {
 	db: {
-	host            : 'home.3wa.io',
-	database        : 'fsjs-02_pierreblo_bijou',
-    user            : 'pierreblo',
-    password        : '475d88a0ZTBhZTJlNGNiOTA2YjQyZmE2ZWU5MGYw291025c4',
-    port: 3307
+		host: "localhost",
+		database: "dbreact3wa",
+		user: "user3wa",
+		password: "pass3wa",
+		port: "3306"
 	},
 	token: {
-		secret: "ploump"
+		secret: "un_secret_pas_bien_garde"
 	}
 }

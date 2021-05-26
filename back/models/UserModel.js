@@ -12,7 +12,7 @@ module.exports = (_db)=>{
 class UserModel {
     static async saveOneUser(req){
         let hash = await bcrypt.hash(req.body.password, saltRounds);
-        console.log(hash);
+        // console.log(hash);
 
         let key_id = randomId(len, pattern);
 

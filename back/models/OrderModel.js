@@ -9,9 +9,8 @@ module.exports = (_db)=>{
 class OrderModel {
     
     static async saveOneOrder(req){
-        
-       
-        return db.query('INSERT INTO orders (user_id, dateCreation, status) VALUES (?, NOW(), "pas encore payé")', [req.body.user_id ])
+        console.log(req.body.user_id);
+        return db.query('INSERT INTO orders (user_id, dateCreation, status) VALUES (?, NOW(), "non payé")', [req.body.user_id])
         	    .then((result)=>{
         	       return {status: 200, msg: "Commande bien enregistrée", result:result}
         	    })
@@ -23,7 +22,6 @@ class OrderModel {
     
     static async saveOneOrderDetail(orderId, product_id, quantityInCart, total){
         
-       
         return db.query('INSERT INTO orderdetails (order_id, product_id, quantity, total_price) VALUES (?, ?, ?, ?)', [orderId, product_id,  quantityInCart, total])
         	    .then((result)=>{
         	       return {status: 200, msg: "Détail commande bien enregistré", result:result}
