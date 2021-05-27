@@ -6,8 +6,7 @@ export const saveProfil = (payload) => {
     return async dispatch => {
         dispatch(startSaveProfil());
         try {
-            console.log(payload)
-            const { status, data } = await axios.post("http://localhost:8000/api/v1/user/save", payload);
+            const { status, data } = await axios.post("/api/v1/user/save", payload);
             if (status === 200) {
                 if (!data.status || data.status === 200) {
                     dispatch(

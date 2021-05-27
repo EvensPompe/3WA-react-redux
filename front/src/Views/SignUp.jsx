@@ -1,8 +1,8 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { saveProfil } from "../Actions/user";
-import ErrorNotif from "../Components/layout/ErrorNotif";
+import { saveProfil } from "../Actions/saveProfil";
+import Notif from "../Components/layout/Notif";
 import "./SignUp.css";
 const SignUp = ({ error, msg, success }) => {
     const [firstName, setFirstName] = useState("");
@@ -13,8 +13,18 @@ const SignUp = ({ error, msg, success }) => {
     const [zip, setZip] = useState("");
     const [city, setCity] = useState("");
     const [phone, setPhone] = useState("");
+    const [successState, setSuccessState] = useState(false);
+    const [errorState, setErrorsState] = useState(false);
+    const [msgState, setMsgState] = useState("");
     const dispatch = useDispatch();
     const history = useHistory();
+
+    useEffect(() => {
+        setSuccessState(success);
+        setErrorsState(error);
+        setMsgState(msg);
+    }, [success, msg, error]);
+
     const signUpSubmit = async (e) => {
         e.preventDefault();
         const submitData = {
@@ -27,17 +37,17 @@ const SignUp = ({ error, msg, success }) => {
             city,
             phone
         };
-        const res = await saveProfil(submitData)(dispatch);
-        console.log(success);
-        if (success) {
-            history.push("/profil");
-        }
+        await saveProfil(submitData)(dispatch);
     };
+    
+    if (successState) {
+        history.push("/profil");
+    }
     return (
         <Fragment>
-            {error
+            {errorState
                 ?
-                <ErrorNotif msg={msg} />
+                <Notif msg={msgState} error={errorState}/>
                 :
                 null
             }
@@ -86,7 +96,7 @@ const SignUp = ({ error, msg, success }) => {
     );
 }
 
-const mapStateToProps = ({ error, success, msg }) => ({
+const mapStateToProps = ({ user: { error, success, msg } }) => ({
     error,
     success,
     msg

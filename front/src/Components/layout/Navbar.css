@@ -9,4 +9,5 @@ ul{
     list-style: none;
     width: inherit;
     justify-content: space-evenly;
+    color: black;
 }
