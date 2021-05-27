@@ -1,10 +1,9 @@
-import { Fragment, useEffect, useState } from "react";
-import { connect, useDispatch } from "react-redux";
+import { Fragment, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { saveProfil } from "../Actions/saveProfil";
 import Notif from "../Components/layout/Notif";
 import "./SignUp.css";
-const SignUp = ({ error, msg, success }) => {
+const SignUp = () => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -16,14 +15,7 @@ const SignUp = ({ error, msg, success }) => {
     const [successState, setSuccessState] = useState(false);
     const [errorState, setErrorsState] = useState(false);
     const [msgState, setMsgState] = useState("");
-    const dispatch = useDispatch();
     const history = useHistory();
-
-    useEffect(() => {
-        setSuccessState(success);
-        setErrorsState(error);
-        setMsgState(msg);
-    }, [success, msg, error]);
 
     const signUpSubmit = async (e) => {
         e.preventDefault();
@@ -37,7 +29,10 @@ const SignUp = ({ error, msg, success }) => {
             city,
             phone
         };
-        await saveProfil(submitData)(dispatch);
+        const {success ,error ,msg } = await saveProfil(submitData);
+        setSuccessState(success);
+        setErrorsState(error);
+        setMsgState(msg);
     };
     
     if (successState) {
@@ -96,10 +91,4 @@ const SignUp = ({ error, msg, success }) => {
     );
 }
 
-const mapStateToProps = ({ user: { error, success, msg } }) => ({
-    error,
-    success,
-    msg
-});
-
-export default connect(mapStateToProps)(SignUp);
+export default SignUp;

@@ -1,11 +1,11 @@
-import { Fragment, useEffect, useState } from "react";
-import { connect, useDispatch } from "react-redux";
+import { Fragment, useState } from "react";
+import { useDispatch } from "react-redux";
 import { loginProfil } from "../Actions/loginProfil";
 import Notif from "../Components/layout/Notif";
 import { useHistory } from "react-router-dom";
 
 
-const SignIn = ({ success, error, msg }) => {
+const SignIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [successState, setSuccessState] = useState(false);
@@ -13,11 +13,6 @@ const SignIn = ({ success, error, msg }) => {
     const [msgState, setMsgState] = useState("");
     const dispatch = useDispatch();
     const history = useHistory();
-    useEffect(() => {
-        setErrorsState(error);
-        setMsgState(msg);
-        setSuccessState(success);
-    }, [success, error, msg]);
 
     const signInSubmit = async (e) => {
         e.preventDefault();
@@ -25,7 +20,10 @@ const SignIn = ({ success, error, msg }) => {
             password,
             email
         };
-        await loginProfil(submitData)(dispatch);
+        const {success ,error ,msg } = await loginProfil(submitData)(dispatch);
+        setSuccessState(success);
+        setErrorsState(error);
+        setMsgState(msg);
     };
 
     if (successState) {
@@ -58,8 +56,5 @@ const SignIn = ({ success, error, msg }) => {
         </Fragment>
     )
 };
-const mapStateToProps = ({ user: { success, error, msg } }) => ({
-    success, error, msg
-})
 
-export default connect(mapStateToProps)(SignIn);
+export default SignIn;

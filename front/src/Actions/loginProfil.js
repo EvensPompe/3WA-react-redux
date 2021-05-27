@@ -11,25 +11,30 @@ export const loginProfil = (payload) => {
                     localStorage.setItem('token3WA',JSON.stringify(data.token));
                     localStorage.setItem('user3WA',JSON.stringify(data.user));
                     dispatch(successLoginProfil({
-                        success:true,
-                        msg:data.msg,
                         token:data.token,
                         user:data.user
                     }))
+                    return {
+                        success:true,
+                        msg:data.msg
+                    }
                 }else{
-                    dispatch(failureLoginProfil({
+                    return {
                         error:true,
                         msg:data.msg
-                    }))
+                    }
                 }
             }else{
-                dispatch(failureLoginProfil({
+                return {
                     error:true,
                     msg:data.msg
-                }))
+                }
             }
         } catch (e) {
-            console.error(e);
+            return {
+                error:true,
+                msg:"Une erreur est survenue"
+            }
         }
     }
 }
@@ -41,17 +46,7 @@ const startLoginProfil = () => ({
 const successLoginProfil = (data) => ({
     type: type.SUCCESS_LOGIN_PROFIL,
     payload: {
-        success: data.success,
-        msg: data.msg,
         token: data.token,
         user: data.user
-    }
-})
-
-const failureLoginProfil = (data) => ({
-    type: type.FAILURE_LOGIN_PROFIL,
-    payload: {
-        error: data.error,
-        msg: data.msg
     }
 })

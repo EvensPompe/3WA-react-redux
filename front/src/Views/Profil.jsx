@@ -1,34 +1,17 @@
-import { Fragment, useState, useEffect } from "react";
+import { Fragment } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router";
 import { NavLink } from "react-router-dom";
-import Notif from "../Components/layout/Notif";
 
-const Profil = ({ user, success, error, msg }) => {
+const Profil = ({ user,token }) => {
     const history = useHistory();
-    const [successState, setSuccessState] = useState(false);
-    const [errorState, setErrorsState] = useState(false);
-    const [msgState, setMsgState] = useState("");
-    useEffect(() => {
-        setErrorsState(error);
-        setMsgState(msg);
-        setSuccessState(success);
-    }, [success, error, msg]);
 
-    if (!localStorage.getItem('token3WA')) {
+    if (!localStorage.getItem('token3WA') || !token ) {
         history.push("/");
     }
 
     return (
         <Fragment>
-            {errorState || successState
-                ?
-                successState
-                    ?
-                    <Notif msg={msgState} />
-                    :
-                    <Notif msg={msgState} error={errorState} />
-                : null}
             {user
                 ?
                 <Fragment>
@@ -48,7 +31,7 @@ const Profil = ({ user, success, error, msg }) => {
         </Fragment>
     );
 }
-const mapStateToProps = ({ user: { user, success, error, msg } }) => ({
-    user,success, error, msg
+const mapStateToProps = ({ user: { user, token } }) => ({
+    user,token
 });
 export default connect(mapStateToProps)(Profil);

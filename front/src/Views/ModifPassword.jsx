@@ -1,24 +1,17 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { changePassword } from "../Actions/changePassword";
 import Notif from "../Components/layout/Notif";
 
-const ModifPassword = ({ match: { params: { id } }, success, error, msg }) => {
+const ModifPassword = ({ match: { params: { id } } }) => {
     const [password1, setPassword1] = useState("");
     const [password2, setPassword2] = useState("");
     const [successState, setSuccessState] = useState(false);
     const [errorState, setErrorsState] = useState(false);
     const [msgState, setMsgState] = useState("");
-    const dispatch = useDispatch();
     const history = useHistory();
-
-    useEffect(() => {
-        setErrorsState(error);
-        setMsgState(msg);
-        setSuccessState(success);
-    }, [success, error, msg]);
-    
+    const dispatch = useDispatch();
     const modifSubmit = async (e) => {
         e.preventDefault();
         let submitData = {
@@ -28,7 +21,16 @@ const ModifPassword = ({ match: { params: { id } }, success, error, msg }) => {
                 password2
             }
         }
-        await changePassword(submitData)(dispatch);
+        const { error, msg, success } = await changePassword(submitData)(dispatch);
+        setErrorsState(error);
+        setMsgState(msg);
+        setSuccessState(success);
+        
+        setTimeout(()=>{
+            setErrorsState(false);
+            setMsgState("");
+            setSuccessState(false);
+        },4000)
     };
 
     const backToProfile = (e) =>{
@@ -66,8 +68,5 @@ const ModifPassword = ({ match: { params: { id } }, success, error, msg }) => {
     );
 }
 
-const mapStateToProps = ({ user: { success, error, msg } }) => ({
-    success, error, msg
-});
 
-export default connect(mapStateToProps)(ModifPassword);
+export default connect()(ModifPassword);

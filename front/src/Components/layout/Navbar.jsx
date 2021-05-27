@@ -5,8 +5,8 @@ import "./Navbar.css";
 import { logoutProfil } from "../../Actions/logoutProfil";
 const NavBar = ({ token }) => {
     const [tokenState, setTokenState] = useState();
-    const dispatch = useDispatch();
     const history = useHistory();
+    const dispatch = useDispatch();
     useEffect(() => {
         setTokenState(token);
     }, [token])
